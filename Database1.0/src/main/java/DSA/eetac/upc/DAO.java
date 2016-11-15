@@ -64,7 +64,9 @@ public abstract class DAO {
         System.out.println(sb.toString());
     }
     public void update (){
-
+        StringBuffer sb = new StringBuffer();
+        //sb.append("QUERY: UPDATE * FROM ").append(this.getClass().getSimpleName().append(" WHERE ID = ").append());
+        System.out.println(sb.toString());
     }
     public void delete (){
 
