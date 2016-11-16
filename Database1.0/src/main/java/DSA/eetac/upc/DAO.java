@@ -9,66 +9,69 @@ import java.lang.reflect.Method;
  */
 public abstract class DAO {
 
-    public String getUpper(String m){
-        String result = Character.toUpperCase(m.charAt(0))+m.substring(1);
+    public String getUpper(String m) {
+        String result = Character.toUpperCase(m.charAt(0)) + m.substring(1);
         return "get".concat(result);
     }
 
-    public void insert (){
+    public void insert() {
 
         StringBuffer sb = new StringBuffer();
         sb.append("INSERT INTO ").append(this.getClass().getSimpleName());
         System.out.println(sb.toString());
 
-        Field [] fields = this.getClass().getFields();
+        Field[] fields = this.getClass().getFields();
 
         sb.append(" (");
-        int i=0;
-        for(Field f:fields){
+        int i = 0;
+        for (Field f : fields) {
             System.out.println(f.getName());
             sb.append(f.getName());
             i++;
-            if (i!=fields.length)
+            if (i != fields.length)
                 sb.append(",");
         }
 
         sb.append(") VALUES (");
-        i=0;
-        for(Field f:fields){
+        i = 0;
+        for (Field f : fields) {
             i++;
             sb.append("?");
-            if (i!=fields.length)
+            if (i != fields.length)
                 sb.append(",");
         }
         System.out.println();
-        for(Field f:fields){
+        for (Field f : fields) {
             try {
                 Method m = this.getClass().getMethod(getUpper(f.getName()), null);
-                String res = (String)m.invoke(this, null).toString();
-                System.out.println("SetObject("+ f.getName()+": "+res +")");
-            }catch (NoSuchMethodException e) {
+                String res = (String) m.invoke(this, null).toString();
+                System.out.println("SetObject(" + f.getName() + ": " + res + ")");
+            } catch (NoSuchMethodException e) {
                 e.printStackTrace();
-            }catch (InvocationTargetException e){
+            } catch (InvocationTargetException e) {
                 e.printStackTrace();
-            }catch (IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         sb.append(")");
 
-        System.out.println("QUERY: "+ sb.toString());
+        System.out.println("QUERY: " + sb.toString());
     }
-    public void select(int pk){
+
+    public void select(int pk) {
         StringBuffer sb = new StringBuffer();
         sb.append("QUERY: SELECT * FROM ").append(this.getClass().getSimpleName()).append(" WHERE ID = ").append(pk);
         System.out.println(sb.toString());
     }
-    public void update (){
+
+    public void update() {
         StringBuffer sb = new StringBuffer();
         //sb.append("QUERY: UPDATE * FROM ").append(this.getClass().getSimpleName().append(" WHERE ID = ").append());
         System.out.println(sb.toString());
     }
-    public void delete (){
+
+    public void delete() {
 
     }
 }
